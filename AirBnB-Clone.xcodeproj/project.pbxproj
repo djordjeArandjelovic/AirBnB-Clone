@@ -16,6 +16,7 @@
 		232644422B4D915200951BD8 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232644412B4D915200951BD8 /* SearchBar.swift */; };
 		232644442B4D94FE00951BD8 /* ListingDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232644432B4D94FE00951BD8 /* ListingDetailView.swift */; };
 		232644472B4D956300951BD8 /* ListingImageCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232644462B4D956300951BD8 /* ListingImageCarouselView.swift */; };
+		232644492B4DD3C300951BD8 /* DestinationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232644482B4DD3C300951BD8 /* DestinationSearchView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		232644412B4D915200951BD8 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		232644432B4D94FE00951BD8 /* ListingDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDetailView.swift; sourceTree = "<group>"; };
 		232644462B4D956300951BD8 /* ListingImageCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingImageCarouselView.swift; sourceTree = "<group>"; };
+		232644482B4DD3C300951BD8 /* DestinationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationSearchView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +176,7 @@
 			children = (
 				2326443C2B4D8B1C00951BD8 /* ExploreView.swift */,
 				232644412B4D915200951BD8 /* SearchBar.swift */,
+				232644482B4DD3C300951BD8 /* DestinationSearchView.swift */,
 			);
 			path = Explore;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				232644472B4D956300951BD8 /* ListingImageCarouselView.swift in Sources */,
+				232644492B4DD3C300951BD8 /* DestinationSearchView.swift in Sources */,
 				232644252B4D8A6300951BD8 /* ContentView.swift in Sources */,
 				2326443F2B4D8C1400951BD8 /* ListingItemView.swift in Sources */,
 				232644422B4D915200951BD8 /* SearchBar.swift in Sources */,
