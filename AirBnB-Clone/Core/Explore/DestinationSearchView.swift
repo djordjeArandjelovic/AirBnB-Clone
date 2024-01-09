@@ -18,6 +18,9 @@ struct DestinationSearchView: View {
     @Binding var show: Bool
     @State private var destination = ""
     @State private var selectedOption: DestinationSearchOptions = .location
+    @State private var startDate = Date()
+    @State private var endDate = Date()
+    @State private var numberOfGuests = 0
     
     var body: some View {
         VStack {
@@ -29,7 +32,9 @@ struct DestinationSearchView: View {
                 Image(systemName: "xmark.circle")
                     .imageScale(.large)
                     .foregroundStyle(.black)
+                
             }
+            .padding()
             
             //MARK: - 3 collapsble views
             
@@ -45,6 +50,16 @@ struct DestinationSearchView: View {
                         
                         TextField("Search destination", text: $destination)
                             .font(.subheadline)
+                        if !destination.isEmpty {
+                            Button {
+                                destination = ""
+                            } label: {
+                                Image(systemName: "xmark")
+                            }
+                            .foregroundStyle(.black)
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                        }
                     }
                     .frame(height: 44)
                     .padding(.horizontal)
@@ -57,65 +72,82 @@ struct DestinationSearchView: View {
                     CollapsedPick(title: "Where", desc: "Add destination")
                 }
             }
-            .padding()
+            .modifier(CollapsibleModifier())
             .frame(height: selectedOption == .location ? 120 : 64)
-            .background(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .padding()
-            .shadow(radius: 10)
             .onTapGesture {
                 withAnimation(.snappy) { selectedOption = .location }
             }
             
             //MARK: middle: date select
-            VStack {
+            VStack(alignment: .leading) {
                 if selectedOption == .dates {
-                    HStack {
-                        Text("Show expanded view")
+                    Text("When's your trip?")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    
+                    VStack {
+                        DatePicker("From", selection: $startDate, displayedComponents: .date)
                         
-                        Spacer()
+                        Divider()
+                        
+                        DatePicker("To", selection: $endDate, displayedComponents: .date)
                     }
+                    .foregroundStyle(.gray)
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    
                 } else {
                     CollapsedPick(title: "When", desc: "Add dates")
                 }
             }
-            .padding()
-            .frame(height: selectedOption == .dates ? 120 : 64)
-            .background(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .padding()
-            .shadow(radius: 10)
+            .modifier(CollapsibleModifier())
+            .frame(height: selectedOption == .dates ? 180 : 64)
             .onTapGesture {
                 withAnimation(.snappy) { selectedOption = .dates }
             }
             
             //MARK: bottom: number of guests
-            VStack {
+            VStack(alignment: .leading) {
                 if selectedOption == .guests {
-                    HStack {
-                        Text("Show expanded view")
-                        
-                        Spacer()
+                    Text("Who's coming?")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    Stepper {
+                        Text("\(numberOfGuests) Adults")
+                    } onIncrement: {
+                        numberOfGuests += 1
+                    } onDecrement: {
+                        guard numberOfGuests > 0 else { return }
+                        numberOfGuests -= 1
                     }
                 } else {
                     CollapsedPick(title: "Who", desc: "Add guests")
                 }
             }
-            .padding()
+            .modifier(CollapsibleModifier())
             .frame(height: selectedOption == .guests ? 120 : 64)
-            .background(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .padding()
-            .shadow(radius: 10)
             .onTapGesture {
                 withAnimation(.snappy) { selectedOption = .guests }
             }
         }
+        Spacer()
     }
 }
 
 #Preview {
     DestinationSearchView(show: .constant(false))
+}
+
+//MARK: - Custom collapsible modifier
+struct CollapsibleModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .padding()
+            .background(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .padding()
+            .shadow(radius: 10)
+    }
 }
 
 //MARK: CollapsedPick Extracted View
