@@ -6,11 +6,14 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct ExploreView: View {
     
     @State private var showDestinationSearchView = false
     @StateObject var viewModel = ExploreViewModel(service: ExploreService())
+    @State private var userEmail: String? = nil
+    
     
     var body: some View {
         NavigationStack {
@@ -24,7 +27,8 @@ struct ExploreView: View {
                                 showDestinationSearchView.toggle()
                             }
                         }
-                    Text("Not logged in")
+                    Text(userEmail ?? "Not logged in yet.")
+                    
                     LazyVStack(spacing: 32){
                         ForEach(viewModel.listings) {listing in
                             NavigationLink(value: listing) {
@@ -40,6 +44,11 @@ struct ExploreView: View {
                     ListingDetailView(listing: listing)
                         .navigationBarBackButtonHidden()
                 }
+            }
+        }
+        .onAppear {
+            Auth.auth().addStateDidChangeListener{_, user in
+                self.userEmail = user?.email
             }
         }
     }

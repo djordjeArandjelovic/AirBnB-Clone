@@ -10,7 +10,7 @@ import FirebaseAuth
 
 struct WishlistView: View {
     
-    @State private var isUserLoggedIn: Bool = Auth.auth().currentUser != nil
+    @State private var isUserLoggedIn: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -46,6 +46,11 @@ struct WishlistView: View {
             }
             .padding()
             .navigationTitle("Wishlists")
+        }
+        .onAppear{
+            Auth.auth().addStateDidChangeListener { _, user in
+                self.isUserLoggedIn = user != nil
+            }
         }
     }
 }
