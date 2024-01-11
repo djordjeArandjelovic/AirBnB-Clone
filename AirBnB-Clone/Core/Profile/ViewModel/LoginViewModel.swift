@@ -5,21 +5,38 @@
 //  Created by Djordje Arandjelovic on 11.1.24..
 //
 
-import Combine
+import FirebaseAuth
 
 class LoginViewModel: ObservableObject {
     //MARK: - published properties that the view can bind to
-    @Published var username: String = ""
+    @Published var email: String = ""
     @Published var password: String = ""
     @Published var isLoggedIn: Bool = false
     
     //MARK: - login attempt func
-    func login() {
-        //MARK: - authentification logic
-        if username == "user" && password == "password" {
-            isLoggedIn = true
-        } else {
-            isLoggedIn = false
+//    func logIn() {
+//        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
+//            DispatchQueue.main.async {
+//                if (authResult?.user) != nil {
+//                    self?.isLoggedIn = true
+//                    // Handle successful login
+//                } else if let error = error {
+//                    self?.isLoggedIn = false
+//                    // Handle login error
+//                    print(error.localizedDescription)
+//                }
+//            }
+//        }
+//    }
+    func logIn(completion: @escaping (Bool) -> Void) {
+        Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+            DispatchQueue.main.async {
+                if authResult?.user != nil {
+                    completion(true)
+                } else {
+                    completion(false)
+                }
+            }
         }
     }
 }

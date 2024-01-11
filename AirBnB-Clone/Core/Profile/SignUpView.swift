@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import FirebaseAuth
+import Firebase
 
 struct SignUpView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -13,16 +15,52 @@ struct SignUpView: View {
     @State private var email: String = ""
     @State private var username: String = ""
     @State private var password: String = ""
-    @State private var confirmPassword: String = ""
+    //    @State private var confirmPassword: String = ""
     @State private var passwordMatch: Bool = false
+    @State private var showSuccessMessage = false
+    @State private var isPasswordVisible: Bool = false
     
     var body: some View {
         NavigationView{
             Form{
                 TextField("Username", text: $username)
                 TextField("Email", text: $email)
-                SecureField("Password", text: $password)
-                SecureField("Confirm Password", text: $confirmPassword)
+                HStack {
+                    if isPasswordVisible {
+                        TextField("Password", text: $password)
+                            .autocapitalization(.none)
+                            .disableAutocorrection(true)
+                    } else {
+                        SecureField("Password", text: $password)
+                            .autocapitalization(.none)
+                            .disableAutocorrection(true)
+                    }
+                    
+                    Button {
+                        isPasswordVisible.toggle()
+                    } label: {
+                        Image(systemName: isPasswordVisible ? "eye.slash.fill" : "eye.fill")
+                            .foregroundColor(.gray)
+                    }
+                }
+                //                HStack {
+                //                    if isPasswordVisible {
+                //                        TextField("Confirm Password", text: $confirmPassword)
+                //                            .autocapitalization(.none)
+                //                            .disableAutocorrection(true)
+                //                    } else {
+                //                        SecureField("Confirm Password", text: $confirmPassword)
+                //                            .autocapitalization(.none)
+                //                            .disableAutocorrection(true)
+                //                    }
+                //
+                //                    Button {
+                //                        isPasswordVisible.toggle()
+                //                    } label: {
+                //                        Image(systemName: isPasswordVisible ? "eye.slash.fill" : "eye.fill")
+                //                            .foregroundColor(.gray)
+                //                    }
+                //                }
                 
                 ZStack {
                     RoundedRectangle(cornerRadius: 8)
@@ -31,8 +69,19 @@ struct SignUpView: View {
                     
                     Button(action: {
                         //MARK: - signup action
+                        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+                            if (authResult?.user) != nil {
+                                showSuccessMessage = true
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                    presentationMode.wrappedValue.dismiss()
+                                }
+                            } else if let error = error {
+                                // Handle sign up error
+                                print(error.localizedDescription)
+                            }
+                        }
                     }) {
-                        Text("Sign up")
+                        Text(showSuccessMessage ? "Account created successfully!" : "Sign up")
                             .font(.subheadline)
                             .fontWeight(.semibold)
                             .foregroundColor(.white)

@@ -6,16 +6,19 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct ProfileView: View {
     
     @StateObject private var viewModel = LoginViewModel()
     @State private var loginPressed: Bool = false
+    @State private var isUserLoggedIn: Bool = Auth.auth().currentUser != nil
     @State private var isPasswordVisible: Bool = false
     @State private var showSignUp: Bool = false
     
     var body: some View {
         VStack {
+            
             //MARK: - Profile, Log in, Sign up
             VStack(alignment: .leading, spacing: 32) {
                 
@@ -24,31 +27,64 @@ struct ProfileView: View {
                     Text("Profile")
                         .font(.largeTitle)
                         .fontWeight(.semibold)
+                    VStack {
+                        if let user = Auth.auth().currentUser {
+                            Text("Logged in as \(user.email ?? "Unknown")")
+                        } else {
+                            Text("Log in to start planing your next trip")
+                        }
+                    }
+                    .onAppear {
+                        isUserLoggedIn = Auth.auth().currentUser != nil
+                    }
                     
-                    Text("Log in to start planing your next trip")
                 }
                 
-                //MARK: - Log in button
-                Button {
-                    withAnimation(.snappy) {
-                        loginPressed.toggle()
+                if isUserLoggedIn {
+                    //MARK: - Log out button
+                    Button(action: {
+                        do {
+                            try Auth.auth().signOut()
+                            isUserLoggedIn = false
+                        } catch {
+                            print("Error signing out")
+                        }
+                    }) {
+                        Text("Log out")
+                            .logoutButtonStyle()
                     }
-                } label: {
-                    Text("Log in")
-                        .foregroundStyle(.white)
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .frame(width: 360, height: 48)
-                        .background(.pink)
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                } else {
+                    //MARK: - Log in button
+                    Button(action: {
+                        if !loginPressed {
+                            withAnimation(.snappy) {
+                                loginPressed.toggle()
+                            }
+                        } else {
+                            viewModel.logIn() { success in
+                                if success {
+                                    isUserLoggedIn = true
+                                    withAnimation {
+                                        loginPressed = false
+                                    }
+                                    viewModel.email = ""
+                                    viewModel.password = ""
+                                }
+                            }
+                        }
+                    }) {
+                        Text("Log in")
+                            .loginButtonStyle()
+                    }
                 }
                 
                 
                 if loginPressed {
                     VStack {
                         HStack {
-                            TextField("Username", text: $viewModel.username)
+                            TextField("Username", text: $viewModel.email)
                                 .font(.subheadline)
+                                .keyboardType(.emailAddress)
                         }
                         .frame(height: 44)
                         .padding(.horizontal)
@@ -126,4 +162,24 @@ struct ProfileView: View {
 
 #Preview {
     ProfileView()
+}
+
+extension View {
+    func loginButtonStyle() -> some View {
+        self.foregroundStyle(.white)
+            .font(.subheadline)
+            .fontWeight(.semibold)
+            .frame(width: 360, height: 48)
+            .background(Color.pink)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+    
+    func logoutButtonStyle() -> some View {
+        self.foregroundStyle(.white)
+            .font(.subheadline)
+            .fontWeight(.semibold)
+            .frame(width: 360, height: 48)
+            .background(Color.blue) // Change as per your design
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
 }

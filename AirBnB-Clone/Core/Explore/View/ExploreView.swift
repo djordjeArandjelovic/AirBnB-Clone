@@ -24,7 +24,7 @@ struct ExploreView: View {
                                 showDestinationSearchView.toggle()
                             }
                         }
-                    
+                    Text("Not logged in")
                     LazyVStack(spacing: 32){
                         ForEach(viewModel.listings) {listing in
                             NavigationLink(value: listing) {
