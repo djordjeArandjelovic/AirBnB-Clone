@@ -8,6 +8,7 @@
 import SwiftUI
 import FirebaseAuth
 import Firebase
+import GoogleSignIn
 
 struct SignUpView: View {
     
@@ -85,6 +86,20 @@ struct SignUpView: View {
                         }
                     }) {
                         Text(showSuccessMessage ? "Account created successfully!" : "Sign up")
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.white)
+                    }
+                }
+                ZStack {
+                    RoundedRectangle(cornerRadius: 8)
+                        .frame(height: 44)
+                        .foregroundColor(.blue)
+                    
+                    Button(action: {
+                        //MARK: - google signup action
+                    }) {
+                        Text(showSuccessMessage ? "Account created successfully!" : "Or sign up with GOOGLE")
                             .font(.subheadline)
                             .fontWeight(.semibold)
                             .foregroundColor(.white)
