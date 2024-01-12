@@ -10,7 +10,9 @@ import FirebaseAuth
 import Firebase
 
 struct SignUpView: View {
+    
     @Environment(\.presentationMode) var presentationMode
+    @ObservedObject var userViewModel: UserLogViewModel
     
     @State private var email: String = ""
     @State private var username: String = ""
@@ -72,6 +74,7 @@ struct SignUpView: View {
                         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
                             if (authResult?.user) != nil {
                                 showSuccessMessage = true
+                                userViewModel.updateLoginStatus()
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                                     presentationMode.wrappedValue.dismiss()
                                 }
@@ -107,5 +110,5 @@ struct SignUpView: View {
 }
 
 #Preview {
-    SignUpView()
+    SignUpView(userViewModel: UserLogViewModel())
 }

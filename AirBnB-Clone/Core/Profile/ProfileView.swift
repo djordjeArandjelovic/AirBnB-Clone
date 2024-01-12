@@ -10,6 +10,7 @@ import FirebaseAuth
 
 struct ProfileView: View {
     
+    @ObservedObject private var userViewModel = UserLogViewModel()
     @StateObject private var viewModel = LoginViewModel()
     @State private var loginPressed: Bool = false
     @State private var isUserLoggedIn: Bool = Auth.auth().currentUser != nil
@@ -36,17 +37,17 @@ struct ProfileView: View {
                             }
                         }
                         .onAppear {
-                            isUserLoggedIn = Auth.auth().currentUser != nil
+                            userViewModel.updateLoginStatus()
                         }
                         
                     }
                     
-                    if isUserLoggedIn {
+                    if userViewModel.isUserLoggedIn {
                         //MARK: - Log out button
                         Button(action: {
                             do {
                                 try Auth.auth().signOut()
-                                isUserLoggedIn = false
+                                userViewModel.updateLoginStatus()
                             } catch {
                                 print("Error signing out")
                             }
@@ -140,7 +141,7 @@ struct ProfileView: View {
                                 .foregroundStyle(.black)
                         }
                         .sheet(isPresented: $showSignUp) {
-                            SignUpView()
+                            SignUpView(userViewModel: UserLogViewModel())
                         }
                         
                         

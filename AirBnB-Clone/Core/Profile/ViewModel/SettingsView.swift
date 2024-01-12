@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 enum selectedSetting {
     case delete
@@ -19,10 +20,13 @@ struct SettingsView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var selectedOption: selectedSetting = .none
     @State private var showAlert: Bool = false
+    @State private var accountDeleted: Bool = false
     @State private var currentPassword: String = ""
     @State private var newPassword: String = ""
     @State private var confirmPassword: String = ""
     @State private var showingChangePassword = false
+    
+    let user = Auth.auth().currentUser
     
     var body: some View {
         NavigationView {
@@ -61,9 +65,6 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("Settings")
-            .navigationBarItems(leading: Button("Back") {
-                presentationMode.wrappedValue.dismiss()
-            }.foregroundStyle(.black))
             .sheet(isPresented: $showingChangePassword) {
                 Form {
                     SecureField("Current Password", text: $currentPassword)
@@ -82,10 +83,20 @@ struct SettingsView: View {
                 
             }
             .toolbar {
+//                ToolbarItem(placement: .topBarLeading) {
+//                    Button{
+//                        presentationMode.wrappedValue.dismiss()
+//                    } label: {
+//                        Image(systemName: "xmark")
+//                            .foregroundStyle(.black)
+//                            .imageScale(.small)
+//                    }
+//                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Toggle(isOn: $isDarkMode) {
                         Image(systemName: isDarkMode ? "moon.fill" : "sun.max.fill")
                             .foregroundStyle( isDarkMode ? .white : .black)
+                            .padding()
                     }
                 }
             }
@@ -95,12 +106,24 @@ struct SettingsView: View {
                 title: Text("Delete Acount"),
                 message: Text("Are you sure you want to delte your account?"),
                 primaryButton: .destructive(Text("DELETE")) {
-                    print("Account deletion")
+                    //MARK: - DELETE LOGIC
+                    user?.delete { error in
+                        if let error = error {
+                            print(error as Any)
+                        } else {
+                            accountDeleted = true
+                        }
+                    }
                 },
                 secondaryButton: .cancel {
                     selectedOption = .none
                 }
             )
+        }
+        .alert("Account successfully deleted!", isPresented: $accountDeleted) {
+            Button("Dismiss", role: .cancel) {
+                selectedOption = .none
+            }
         }
         //MARK: - App version
         Text("version 0.1")

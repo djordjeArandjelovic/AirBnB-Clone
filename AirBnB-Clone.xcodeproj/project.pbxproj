@@ -29,6 +29,7 @@
 		235D30542B50082D00A75EE9 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 235D30532B50082D00A75EE9 /* FirebaseAuth */; };
 		235D30562B50082D00A75EE9 /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 235D30552B50082D00A75EE9 /* FirebaseAuthCombine-Community */; };
 		235D30582B50082D00A75EE9 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 235D30572B50082D00A75EE9 /* FirebaseCrashlytics */; };
+		239951602B5183A00018564F /* UserLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2399515F2B5183A00018564F /* UserLogViewModel.swift */; };
 		23D20EA62B4E9B0400E52BC7 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D20EA52B4E9B0400E52BC7 /* ProfileView.swift */; };
 		23D20EA82B4E9CE700E52BC7 /* ProfileOptionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D20EA72B4E9CE700E52BC7 /* ProfileOptionRowView.swift */; };
 		23D20EAA2B4E9E3100E52BC7 /* WishlistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D20EA92B4E9E3100E52BC7 /* WishlistView.swift */; };
@@ -56,6 +57,7 @@
 		235D30402B4FF08900A75EE9 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		235D30422B4FFD4B00A75EE9 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		235D30442B50072B00A75EE9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2399515F2B5183A00018564F /* UserLogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLogViewModel.swift; sourceTree = "<group>"; };
 		23D20EA52B4E9B0400E52BC7 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		23D20EA72B4E9CE700E52BC7 /* ProfileOptionRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileOptionRowView.swift; sourceTree = "<group>"; };
 		23D20EA92B4E9E3100E52BC7 /* WishlistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishlistView.swift; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 			children = (
 				235D30402B4FF08900A75EE9 /* LoginViewModel.swift */,
 				23F5EC0D2B5167AB00DB6A8C /* SettingsView.swift */,
+				2399515F2B5183A00018564F /* UserLogViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 				23D20EAA2B4E9E3100E52BC7 /* WishlistView.swift in Sources */,
 				2326443D2B4D8B1C00951BD8 /* ExploreView.swift in Sources */,
 				232644442B4D94FE00951BD8 /* ListingDetailView.swift in Sources */,
+				239951602B5183A00018564F /* UserLogViewModel.swift in Sources */,
 				232644232B4D8A6300951BD8 /* AirBnB_CloneApp.swift in Sources */,
 				23D20EAC2B4EA12C00E52BC7 /* MainTabView.swift in Sources */,
 				23D20EB22B4EA90C00E52BC7 /* DeveloperPreview.swift in Sources */,
