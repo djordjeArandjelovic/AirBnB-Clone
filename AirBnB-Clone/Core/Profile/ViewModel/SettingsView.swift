@@ -18,6 +18,8 @@ struct SettingsView: View {
     
     @AppStorage("isDarkMode") private var isDarkMode = false
     @Environment(\.presentationMode) var presentationMode
+    @ObservedObject private var userViewModel = UserLogViewModel()
+    
     @State private var selectedOption: selectedSetting = .none
     @State private var showAlert: Bool = false
     @State private var accountDeleted: Bool = false
@@ -38,31 +40,39 @@ struct SettingsView: View {
                     }
                 }
                 
-                //MARK: - Change password
-                
-                Section(header: Text("Security")) {
-                    Button("Change Password") {
-                        showingChangePassword = true
-                    }
-                }
+               
                 
                 //MARK: - Language
                 
-                //MARK: - Delete account
-                Section(header: Text("Danger zone")) {
-                    Button{
-                        selectedOption = .delete
-                        showAlert = true
-                    } label: {
-                        Text("Delete Account")
-                            .foregroundColor(.red)
-                            .onTapGesture {
-                                withAnimation {
-                                    selectedOption = selectedOption == .delete ? .none : .delete
-                                }
-                            }
+               
+                if userViewModel.isUserLoggedIn {
+                    //MARK: - Change password
+                    
+                    Section(header: Text("Security")) {
+                        Button("Change Password") {
+                            showingChangePassword = true
+                        }
                     }
+                    
+                    //MARK: - Delete account
+                    Section(header: Text("Danger zone")) {
+                        Button{
+                            selectedOption = .delete
+                            showAlert = true
+                        } label: {
+                            Text("Delete Account")
+                                .foregroundColor(.red)
+                                .onTapGesture {
+                                    withAnimation {
+                                        selectedOption = selectedOption == .delete ? .none : .delete
+                                    }
+                                }
+                        }
+                    }
+                } else {
+                    Text("Please log in to have access to all settings...")
                 }
+                
             }
             .navigationTitle("Settings")
             .sheet(isPresented: $showingChangePassword) {

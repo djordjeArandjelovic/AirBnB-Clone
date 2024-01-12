@@ -13,21 +13,6 @@ class LoginViewModel: ObservableObject {
     @Published var password: String = ""
     @Published var isLoggedIn: Bool = false
     
-    //MARK: - login attempt func
-//    func logIn() {
-//        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
-//            DispatchQueue.main.async {
-//                if (authResult?.user) != nil {
-//                    self?.isLoggedIn = true
-//                    // Handle successful login
-//                } else if let error = error {
-//                    self?.isLoggedIn = false
-//                    // Handle login error
-//                    print(error.localizedDescription)
-//                }
-//            }
-//        }
-//    }
     func logIn(completion: @escaping (Bool) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
             DispatchQueue.main.async {
