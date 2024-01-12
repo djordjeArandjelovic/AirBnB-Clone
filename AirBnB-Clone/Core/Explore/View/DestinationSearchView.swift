@@ -159,7 +159,7 @@ struct CollapsibleModifier: ViewModifier {
 struct CollapsedPick: View {
     
     let title:String
-    let desc:String
+    let desc:String?
     
     var body: some View {
         VStack {
@@ -169,7 +169,9 @@ struct CollapsedPick: View {
                 
                 Spacer()
                 
-                Text(desc)
+                if let desc = desc {
+                    Text(desc)
+                }
             }
             .fontWeight(.semibold)
             .font(.subheadline)

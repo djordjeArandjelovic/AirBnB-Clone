@@ -17,145 +17,150 @@ struct ProfileView: View {
     @State private var showSignUp: Bool = false
     
     var body: some View {
-        VStack {
-            
-            //MARK: - Profile, Log in, Sign up
-            VStack(alignment: .leading, spacing: 32) {
+        NavigationStack {
+            VStack {
                 
-                //MARK: - Profle Title
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Profile")
-                        .font(.largeTitle)
-                        .fontWeight(.semibold)
-                    VStack {
-                        if let user = Auth.auth().currentUser {
-                            Text("Logged in as \(user.email ?? "Unknown")")
-                        } else {
-                            Text("Log in to start planing your next trip")
-                        }
-                    }
-                    .onAppear {
-                        isUserLoggedIn = Auth.auth().currentUser != nil
-                    }
+                //MARK: - Profile, Log in, Sign up
+                VStack(alignment: .leading, spacing: 32) {
                     
-                }
-                
-                if isUserLoggedIn {
-                    //MARK: - Log out button
-                    Button(action: {
-                        do {
-                            try Auth.auth().signOut()
-                            isUserLoggedIn = false
-                        } catch {
-                            print("Error signing out")
-                        }
-                    }) {
-                        Text("Log out")
-                            .logoutButtonStyle()
-                    }
-                } else {
-                    //MARK: - Log in button
-                    Button(action: {
-                        if !loginPressed {
-                            withAnimation(.snappy) {
-                                loginPressed.toggle()
-                            }
-                        } else {
-                            viewModel.logIn() { success in
-                                if success {
-                                    isUserLoggedIn = true
-                                    withAnimation {
-                                        loginPressed = false
-                                    }
-                                    viewModel.email = ""
-                                    viewModel.password = ""
-                                }
+                    //MARK: - Profle Title
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Profile")
+                            .font(.largeTitle)
+                            .fontWeight(.semibold)
+                        VStack {
+                            if let user = Auth.auth().currentUser {
+                                Text("Logged in as \(user.email ?? "Unknown")")
+                            } else {
+                                Text("Log in to start planing your next trip")
                             }
                         }
-                    }) {
-                        Text("Log in")
-                            .loginButtonStyle()
-                    }
-                }
-                
-                
-                if loginPressed {
-                    VStack {
-                        HStack {
-                            TextField("Username", text: $viewModel.email)
-                                .font(.subheadline)
-                                .keyboardType(.emailAddress)
-                        }
-                        .frame(height: 44)
-                        .padding(.horizontal)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(lineWidth: 1)
-                                .foregroundStyle(Color(.systemGray4))
+                        .onAppear {
+                            isUserLoggedIn = Auth.auth().currentUser != nil
                         }
                         
-                        HStack {
-                            if isPasswordVisible {
-                                TextField("Password", text: $viewModel.password)
-                                    .autocapitalization(.none)
-                                    .disableAutocorrection(true)
-                                    .font(.subheadline)
+                    }
+                    
+                    if isUserLoggedIn {
+                        //MARK: - Log out button
+                        Button(action: {
+                            do {
+                                try Auth.auth().signOut()
+                                isUserLoggedIn = false
+                            } catch {
+                                print("Error signing out")
+                            }
+                        }) {
+                            Text("Log out")
+                                .logoutButtonStyle()
+                        }
+                    } else {
+                        //MARK: - Log in button
+                        Button(action: {
+                            if !loginPressed {
+                                withAnimation(.snappy) {
+                                    loginPressed.toggle()
+                                }
                             } else {
-                                SecureField("Password", text: $viewModel.password)
-                                    .autocapitalization(.none)
-                                    .disableAutocorrection(true)
+                                viewModel.logIn() { success in
+                                    if success {
+                                        isUserLoggedIn = true
+                                        withAnimation {
+                                            loginPressed = false
+                                        }
+                                        viewModel.email = ""
+                                        viewModel.password = ""
+                                    }
+                                }
+                            }
+                        }) {
+                            Text("Log in")
+                                .loginButtonStyle()
+                        }
+                    }
+                    
+                    
+                    if loginPressed {
+                        VStack {
+                            HStack {
+                                TextField("Username", text: $viewModel.email)
                                     .font(.subheadline)
+                                    .keyboardType(.emailAddress)
+                            }
+                            .frame(height: 44)
+                            .padding(.horizontal)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(lineWidth: 1)
+                                    .foregroundStyle(Color(.systemGray4))
                             }
                             
-                            Button {
-                                isPasswordVisible.toggle()
-                            } label: {
-                                Image(systemName: isPasswordVisible ? "eye.slash.fill" : "eye.fill")
-                                    .foregroundColor(.gray)
+                            HStack {
+                                if isPasswordVisible {
+                                    TextField("Password", text: $viewModel.password)
+                                        .autocapitalization(.none)
+                                        .disableAutocorrection(true)
+                                        .font(.subheadline)
+                                } else {
+                                    SecureField("Password", text: $viewModel.password)
+                                        .autocapitalization(.none)
+                                        .disableAutocorrection(true)
+                                        .font(.subheadline)
+                                }
+                                
+                                Button {
+                                    isPasswordVisible.toggle()
+                                } label: {
+                                    Image(systemName: isPasswordVisible ? "eye.slash.fill" : "eye.fill")
+                                        .foregroundColor(.gray)
+                                }
+                            }
+                            .frame(height: 44)
+                            .padding(.horizontal)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(lineWidth: 1)
+                                    .foregroundStyle(Color(.systemGray4))
                             }
                         }
-                        .frame(height: 44)
-                        .padding(.horizontal)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(lineWidth: 1)
-                                .foregroundStyle(Color(.systemGray4))
-                        }
+                        .frame(height: loginPressed ? 120 : 0)
                     }
-                    .frame(height: loginPressed ? 120 : 0)
+                    
+                    //MARK: - Sign up button
+                    
+                    HStack {
+                        Text("Don't have an account?")
+                        
+                        Button {
+                            showSignUp = true
+                        } label: {
+                            Text("Sign up")
+                                .underline()
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.black)
+                        }
+                        .sheet(isPresented: $showSignUp) {
+                            SignUpView()
+                        }
+                        
+                        
+                    }
+                    .font(.caption)
                 }
                 
-                //MARK: - Sign up button
-                
-                HStack {
-                    Text("Don't have an account?")
-                    
-                    Button {
-                        showSignUp = true
-                    } label: {
-                        Text("Sign up")
-                            .underline()
-                            .fontWeight(.semibold)
+                //MARK: - Settings, Accessibility, Help
+                VStack(spacing: 24) {
+                    NavigationLink(destination: SettingsView()) {
+                        ProfileOptionRowView(imageName: "gear", title: "Settings")
                             .foregroundStyle(.black)
                     }
-                    .sheet(isPresented: $showSignUp) {
-                        SignUpView()
-                    }
-                    
-                    
+                    ProfileOptionRowView(imageName: "gear", title: "Accessibility")
+                    ProfileOptionRowView(imageName: "questionmark.circle", title: "Visit the Help Center")
                 }
-                .font(.caption)
+                .padding(.vertical)
             }
-            
-            //MARK: - Settings, Accessibility, Help
-            VStack(spacing: 24) {
-                ProfileOptionRowView(imageName: "gear", title: "Settings")
-                ProfileOptionRowView(imageName: "gear", title: "Accessibility")
-                ProfileOptionRowView(imageName: "questionmark.circle", title: "Visit the Help Center")
-            }
-            .padding(.vertical)
+            .padding()
         }
-        .padding()
     }
 }
 

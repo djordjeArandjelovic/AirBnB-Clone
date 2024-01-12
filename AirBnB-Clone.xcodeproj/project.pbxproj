@@ -38,6 +38,7 @@
 		23D20EB72B4EB29C00E52BC7 /* ExploreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D20EB62B4EB29C00E52BC7 /* ExploreViewModel.swift */; };
 		23D20EB92B4EB2E900E52BC7 /* ExploreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D20EB82B4EB2E900E52BC7 /* ExploreService.swift */; };
 		23D20EBB2B4EC66A00E52BC7 /* Regions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D20EBA2B4EC66A00E52BC7 /* Regions.swift */; };
+		23F5EC0E2B5167AB00DB6A8C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F5EC0D2B5167AB00DB6A8C /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +65,7 @@
 		23D20EB62B4EB29C00E52BC7 /* ExploreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewModel.swift; sourceTree = "<group>"; };
 		23D20EB82B4EB2E900E52BC7 /* ExploreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreService.swift; sourceTree = "<group>"; };
 		23D20EBA2B4EC66A00E52BC7 /* Regions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Regions.swift; sourceTree = "<group>"; };
+		23F5EC0D2B5167AB00DB6A8C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,6 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				235D30402B4FF08900A75EE9 /* LoginViewModel.swift */,
+				23F5EC0D2B5167AB00DB6A8C /* SettingsView.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -349,6 +352,7 @@
 				23D20EA82B4E9CE700E52BC7 /* ProfileOptionRowView.swift in Sources */,
 				232644492B4DD3C300951BD8 /* DestinationSearchView.swift in Sources */,
 				232644252B4D8A6300951BD8 /* ContentView.swift in Sources */,
+				23F5EC0E2B5167AB00DB6A8C /* SettingsView.swift in Sources */,
 				235D30432B4FFD4B00A75EE9 /* SignUpView.swift in Sources */,
 				23D20EB72B4EB29C00E52BC7 /* ExploreViewModel.swift in Sources */,
 				2326443F2B4D8C1400951BD8 /* ListingItemView.swift in Sources */,
